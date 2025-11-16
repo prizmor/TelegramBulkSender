@@ -1,0 +1,33 @@
+@page
+@model TelegramBulkSender.API.Pages.BroadcastHistoryModel
+@{
+    ViewData["Title"] = "История рассылок";
+}
+<h1 class="h3 mb-3">История рассылок</h1>
+<div class="table-responsive">
+    <table class="table table-dark table-striped align-middle">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Дата</th>
+                <th>Пользователь</th>
+                <th>Всего</th>
+                <th>Успех</th>
+                <th>Ошибки</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Broadcasts)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.CreatedAt.ToLocalTime()</td>
+                    <td>@item.User.Username</td>
+                    <td>@item.TotalChats</td>
+                    <td class="text-success">@item.SuccessCount</td>
+                    <td class="text-danger">@item.FailedCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

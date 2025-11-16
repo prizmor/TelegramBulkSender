@@ -1,0 +1,73 @@
+@page
+@model TelegramBulkSender.API.Pages.UsersModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Policy = "RootOnly")]
+@{
+    ViewData["Title"] = "Пользователи";
+}
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card card-dark">
+            <div class="card-header">Новый пользователь</div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label asp-for="Input.Username" class="form-label"></label>
+                        <input asp-for="Input.Username" class="form-control" />
+                        <span asp-validation-for="Input.Username" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.Password" class="form-label"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" asp-for="Input.IsRoot" />
+                        <label class="form-check-label" asp-for="Input.IsRoot">Root</label>
+                    </div>
+                    <button class="btn btn-primary w-100">Создать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card card-dark">
+            <div class="card-header">Пользователи</div>
+            <div class="table-responsive">
+                <table class="table table-dark table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Root</th>
+                            <th>Создан</th>
+                            <th>Последний вход</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@user.Username</td>
+                                <td>@(user.IsRoot ? "Да" : "Нет")</td>
+                                <td>@user.CreatedAt.ToLocalTime()</td>
+                                <td>@user.LastLoginAt?.ToLocalTime()</td>
+                                <td>
+                                    @if (!user.IsRoot)
+                                    {
+                                        <form method="post" asp-page-handler="Delete" class="d-inline" onsubmit="return confirm('Удалить пользователя?');">
+                                            <input type="hidden" name="id" value="@user.Id" />
+                                            <button class="btn btn-sm btn-outline-danger">Удалить</button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
