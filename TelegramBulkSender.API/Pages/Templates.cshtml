@@ -1,0 +1,64 @@
+@page
+@model TelegramBulkSender.API.Pages.TemplatesModel
+@{
+    ViewData["Title"] = "Шаблоны";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">Шаблоны сообщений</h1>
+</div>
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="card card-dark">
+            <div class="card-header">Создать шаблон</div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label asp-for="Input.Name" class="form-label"></label>
+                        <input asp-for="Input.Name" class="form-control" />
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" asp-for="Input.IsGlobal" />
+                        <label class="form-check-label" asp-for="Input.IsGlobal">Глобальный</label>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.TextRu" class="form-label"></label>
+                        <textarea asp-for="Input.TextRu" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.TextEn" class="form-label"></label>
+                        <textarea asp-for="Input.TextEn" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button class="btn btn-primary w-100">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="card card-dark">
+            <div class="card-header">Доступные шаблоны</div>
+            <div class="list-group list-group-flush">
+                @foreach (var template in Model.Templates)
+                {
+                    <div class="list-group-item bg-transparent text-light">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>@template.Name</strong>
+                                <div class="text-muted small">@(template.IsGlobal ? "Глобальный" : "Личный")</div>
+                            </div>
+                            <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Удалить шаблон?');">
+                                <input type="hidden" name="id" value="@template.Id" />
+                                <button class="btn btn-sm btn-outline-danger">Удалить</button>
+                            </form>
+                        </div>
+                        <p class="mt-2 mb-1">@template.TextRu</p>
+                        <p class="mb-0 text-muted">@template.TextEn</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

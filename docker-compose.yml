@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    env_file:
+      - .env
+    volumes:
+      - ./telegram.session:/app/telegram.session
+      - ./logs:/app/logs
+      - ./uploads:/app/uploads
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
+      MYSQL_DATABASE: tg_bulk
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
