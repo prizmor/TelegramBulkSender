@@ -8,11 +8,11 @@ namespace TelegramBulkSender.API.Pages;
 
 public class UsersModel : PageModel
 {
-    private readonly UserService _userService;
+    private readonly AuthService _authService;
 
-    public UsersModel(UserService userService)
+    public UsersModel(AuthService authService)
     {
-        _userService = userService;
+        _authService = authService;
     }
 
     public IEnumerable<User> Users { get; set; } = Enumerable.Empty<User>();
@@ -31,7 +31,7 @@ public class UsersModel : PageModel
 
     public async Task OnGetAsync()
     {
-        Users = await _userService.GetUsersAsync();
+        Users = await _authService.GetUsersAsync();
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -42,13 +42,13 @@ public class UsersModel : PageModel
             return Page();
         }
 
-        await _userService.CreateUserAsync(Input.Username, Input.Password, Input.IsRoot);
+        await _authService.CreateUserAsync(Input.Username, Input.Password, Input.IsRoot);
         return RedirectToPage();
     }
 
     public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
-        await _userService.DeleteUserAsync(id);
+        await _authService.DeleteUserAsync(id);
         return RedirectToPage();
     }
 }

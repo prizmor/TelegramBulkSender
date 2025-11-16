@@ -7,11 +7,11 @@ namespace TelegramBulkSender.API.Pages;
 
 public class LoginModel : PageModel
 {
-    private readonly UserService _userService;
+    private readonly AuthService _authService;
 
-    public LoginModel(UserService userService)
+    public LoginModel(AuthService authService)
     {
-        _userService = userService;
+        _authService = authService;
     }
 
     [BindProperty]
@@ -28,7 +28,7 @@ public class LoginModel : PageModel
             return Page();
         }
 
-        var result = await _userService.AuthenticateAsync(Input.Username, Input.Password);
+        var result = await _authService.AuthenticateAsync(Input.Username, Input.Password);
         if (result == null)
         {
             ModelState.AddModelError(string.Empty, "Неверный логин или пароль");

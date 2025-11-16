@@ -10,13 +10,13 @@ namespace TelegramBulkSender.API.Pages;
 public class ChatsModel : PageModel
 {
     private readonly ChatService _chatService;
-    private readonly TelegramClientService _telegramClientService;
+    private readonly TelegramService _telegramService;
     private readonly ApplicationDbContext _dbContext;
 
-    public ChatsModel(ChatService chatService, TelegramClientService telegramClientService, ApplicationDbContext dbContext)
+    public ChatsModel(ChatService chatService, TelegramService telegramService, ApplicationDbContext dbContext)
     {
         _chatService = chatService;
-        _telegramClientService = telegramClientService;
+        _telegramService = telegramService;
         _dbContext = dbContext;
     }
 
@@ -31,7 +31,7 @@ public class ChatsModel : PageModel
 
     public async Task<IActionResult> OnPostSyncAsync()
     {
-        await _telegramClientService.RefreshChatsAsync(_dbContext, HttpContext.RequestAborted);
+        await _telegramService.RefreshChatsAsync(_dbContext, HttpContext.RequestAborted);
         return RedirectToPage(new { search = Search });
     }
 

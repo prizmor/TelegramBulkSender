@@ -24,8 +24,8 @@ public class TelegramSyncHostedService : BackgroundService
             {
                 using var scope = _serviceProvider.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                var telegramClient = scope.ServiceProvider.GetRequiredService<TelegramClientService>();
-                await telegramClient.RefreshChatsAsync(dbContext, stoppingToken);
+                var telegramService = scope.ServiceProvider.GetRequiredService<TelegramService>();
+                await telegramService.RefreshChatsAsync(dbContext, stoppingToken);
                 _logger.LogInformation("Telegram chats synchronized");
             }
             catch (Exception ex)

@@ -5,6 +5,8 @@ namespace TelegramBulkSender.API.Data;
 
 public class ApplicationDbContext : DbContext
 {
+    public const int RootUserId = 1;
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
@@ -21,51 +23,68 @@ public class ApplicationDbContext : DbContext
     public DbSet<BroadcastMessage> BroadcastMessages => Set<BroadcastMessage>();
     public DbSet<BroadcastFile> BroadcastFiles => Set<BroadcastFile>();
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
 
-        builder.Entity<User>(entity =>
+        modelBuilder.Entity<User>(entity =>
         {
-            entity.HasIndex(x => x.Username).IsUnique();
+            entity.HasIndex(u => u.Username).IsUnique();
+            entity.HasMany(u => u.Sessions)
+                .WithOne(s => s.User)
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            entity.HasData(new User
+            {
+                Id = RootUserId,
+                Username = "root",
+                PasswordHash = string.Empty,
+                IsRoot = true,
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+            });
         });
 
-        builder.Entity<UserSession>(entity =>
+        modelBuilder.Entity<UserSession>(entity =>
         {
-            entity.HasIndex(x => x.RefreshToken).IsUnique();
+            entity.HasIndex(s => s.RefreshToken).IsUnique();
         });
 
-        builder.Entity<Chat>(entity =>
+        modelBuilder.Entity<Chat>(entity =>
         {
-            entity.HasIndex(x => x.TelegramChatId).IsUnique();
+            entity.HasIndex(c => c.TelegramChatId).IsUnique();
         });
 
-        builder.Entity<ChatGroup>(entity =>
+        modelBuilder.Entity<ChatGroup>(entity =>
         {
-            entity.HasMany(x => x.Members)
-                .WithOne(x => x.ChatGroup)
-                .HasForeignKey(x => x.ChatGroupId)
+            entity.HasMany(g => g.Members)
+                .WithOne(m => m.ChatGroup)
+                .HasForeignKey(m => m.ChatGroupId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        builder.Entity<MessageTemplate>(entity =>
+        modelBuilder.Entity<ChatGroupMember>(entity =>
         {
-            entity.HasMany(x => x.Files)
-                .WithOne(x => x.Template)
-                .HasForeignKey(x => x.TemplateId)
+            entity.HasIndex(m => new { m.ChatGroupId, m.ChatId }).IsUnique();
+        });
+
+        modelBuilder.Entity<MessageTemplate>(entity =>
+        {
+            entity.HasMany(t => t.Files)
+                .WithOne(f => f.Template)
+                .HasForeignKey(f => f.TemplateId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        builder.Entity<Broadcast>(entity =>
+        modelBuilder.Entity<Broadcast>(entity =>
         {
-            entity.HasMany(x => x.Messages)
-                .WithOne(x => x.Broadcast)
-                .HasForeignKey(x => x.BroadcastId)
+            entity.HasMany(b => b.Messages)
+                .WithOne(m => m.Broadcast)
+                .HasForeignKey(m => m.BroadcastId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasMany(x => x.Files)
-                .WithOne(x => x.Broadcast)
-                .HasForeignKey(x => x.BroadcastId)
+            entity.HasMany(b => b.Files)
+                .WithOne(f => f.Broadcast)
+                .HasForeignKey(f => f.BroadcastId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

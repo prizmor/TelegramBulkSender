@@ -7,12 +7,12 @@ namespace TelegramBulkSender.API.Services;
 public class BroadcastService
 {
     private readonly ApplicationDbContext _dbContext;
-    private readonly TelegramClientService _telegramClientService;
+    private readonly TelegramService _telegramService;
 
-    public BroadcastService(ApplicationDbContext dbContext, TelegramClientService telegramClientService)
+    public BroadcastService(ApplicationDbContext dbContext, TelegramService telegramService)
     {
         _dbContext = dbContext;
-        _telegramClientService = telegramClientService;
+        _telegramService = telegramService;
     }
 
     public async Task<Broadcast> CreateBroadcastAsync(int userId, string textRu, string textEn, IEnumerable<long> chatIds)
@@ -30,7 +30,7 @@ public class BroadcastService
 
         foreach (var chatId in chatIds)
         {
-            await _telegramClientService.SendMessageAsync(_dbContext, broadcast, chatId, textRu, Enumerable.Empty<string>(), false);
+            await _telegramService.SendMessageAsync(_dbContext, broadcast, chatId, textRu, Enumerable.Empty<string>(), false);
             await Task.Delay(TimeSpan.FromSeconds(2));
         }
 

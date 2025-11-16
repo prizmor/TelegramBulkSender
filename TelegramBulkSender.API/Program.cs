@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Threading.RateLimiting;
 using System.Text;
 using TelegramBulkSender.API.Data;
+using TelegramBulkSender.API.Middleware;
 using TelegramBulkSender.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +28,22 @@ builder.Services.AddRazorPages(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 2L * 1024 * 1024 * 1024;
+});
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("default", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 60;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueLimit = 0;
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -73,10 +93,10 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<JwtTokenService>();
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserLogService>();
 builder.Services.AddScoped<TelegramSessionStorage>();
-builder.Services.AddSingleton<TelegramClientService>();
+builder.Services.AddSingleton<TelegramService>();
 builder.Services.AddScoped<ChatService>();
 builder.Services.AddScoped<ChatGroupService>();
 builder.Services.AddScoped<TemplateService>();
@@ -90,8 +110,8 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await db.Database.MigrateAsync();
-    var userService = scope.ServiceProvider.GetRequiredService<UserService>();
-    await userService.EnsureRootUserAsync();
+    var authService = scope.ServiceProvider.GetRequiredService<AuthService>();
+    await authService.EnsureRootUserAsync();
 }
 
 if (!app.Environment.IsDevelopment())
@@ -105,6 +125,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseRateLimiter();
+app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
