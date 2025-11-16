@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using System.Threading.RateLimiting;
 using System.Text;
+using System.Threading.RateLimiting;
 using TelegramBulkSender.API.Data;
 using TelegramBulkSender.API.Middleware;
 using TelegramBulkSender.API.Services;
@@ -26,6 +27,11 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Login");
 });
 
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-CSRF-TOKEN";
+});
+
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
 
@@ -36,22 +42,27 @@ builder.Services.Configure<FormOptions>(options =>
 
 builder.Services.AddRateLimiter(options =>
 {
-    options.AddFixedWindowLimiter("default", limiterOptions =>
-    {
-        limiterOptions.PermitLimit = 60;
-        limiterOptions.Window = TimeSpan.FromMinutes(1);
-        limiterOptions.QueueLimit = 0;
-        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-    });
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.User.Identity?.Name ?? context.Request.Headers.Host.ToString(),
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 100,
+                QueueLimit = 0,
+                Window = TimeSpan.FromMinutes(1),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                AutoReplenishment = true
+            }));
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("Default") ?? builder.Configuration.GetValue<string>("MYSQL_CONNECTION") ?? throw new InvalidOperationException("Missing MySQL connection string");
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? builder.Configuration.GetValue<string>("MYSQL_CONNECTION") ?? throw new InvalidOperationException("Missing MySQL connection string");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
-var jwtSecret = builder.Configuration.GetValue<string>("JWT_SECRET") ?? throw new InvalidOperationException("Missing JWT secret");
+var jwtSecret = builder.Configuration["Jwt:Secret"] ?? builder.Configuration.GetValue<string>("JWT_SECRET") ?? throw new InvalidOperationException("Missing JWT secret");
 var key = Encoding.UTF8.GetBytes(jwtSecret);
 
 builder.Services.AddAuthentication(options =>
@@ -95,7 +106,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<JwtTokenService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserLogService>();
-builder.Services.AddScoped<TelegramSessionStorage>();
+builder.Services.AddSingleton<TelegramSessionStorage>();
 builder.Services.AddSingleton<TelegramService>();
 builder.Services.AddScoped<ChatService>();
 builder.Services.AddScoped<ChatGroupService>();
@@ -103,6 +114,11 @@ builder.Services.AddScoped<TemplateService>();
 builder.Services.AddScoped<BroadcastService>();
 builder.Services.AddScoped<FileStorageService>();
 builder.Services.AddHostedService<TelegramSyncHostedService>();
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 2L * 1024 * 1024 * 1024;
+});
 
 var app = builder.Build();
 
@@ -126,9 +142,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseRateLimiter();
-app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapRazorPages();
 app.MapControllers();

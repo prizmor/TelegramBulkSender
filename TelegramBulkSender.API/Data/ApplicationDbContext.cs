@@ -30,10 +30,32 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasIndex(u => u.Username).IsUnique();
+
             entity.HasMany(u => u.Sessions)
                 .WithOne(s => s.User)
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(u => u.Logs)
+                .WithOne(l => l.User)
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(u => u.ChatGroups)
+                .WithOne(g => g.User)
+                .HasForeignKey(g => g.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(u => u.Templates)
+                .WithOne(t => t.User)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(u => u.Broadcasts)
+                .WithOne(b => b.User)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             entity.HasData(new User
             {
                 Id = RootUserId,
@@ -65,6 +87,11 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<ChatGroupMember>(entity =>
         {
             entity.HasIndex(m => new { m.ChatGroupId, m.ChatId }).IsUnique();
+
+            entity.HasOne(m => m.Chat)
+                .WithMany(c => c.Groups)
+                .HasForeignKey(m => m.ChatId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<MessageTemplate>(entity =>
@@ -72,6 +99,11 @@ public class ApplicationDbContext : DbContext
             entity.HasMany(t => t.Files)
                 .WithOne(f => f.Template)
                 .HasForeignKey(f => f.TemplateId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(t => t.User)
+                .WithMany(u => u.Templates)
+                .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -85,6 +117,19 @@ public class ApplicationDbContext : DbContext
             entity.HasMany(b => b.Files)
                 .WithOne(f => f.Broadcast)
                 .HasForeignKey(f => f.BroadcastId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(b => b.User)
+                .WithMany(u => u.Broadcasts)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<UserLog>(entity =>
+        {
+            entity.HasOne(l => l.User)
+                .WithMany(u => u.Logs)
+                .HasForeignKey(l => l.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }
