@@ -9,7 +9,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Получатели</span>
                 <form method="post" asp-page-handler="Sync" class="ms-auto">
-                    <button class="btn btn-sm btn-outline-light">Синхронизировать</button>
+                    <button class="btn btn-sm btn-outline-primary">Обновить список</button>
                 </form>
             </div>
             <div class="card-body">
@@ -47,12 +47,12 @@
     </div>
     <div class="col-lg-8">
         <div class="card card-dark shadow-sm mb-4">
-            <div class="card-header">Текст сообщения</div>
+            <div class="card-header">Текст рассылки</div>
             <div class="card-body">
                 <form method="post">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label">Русский текст</label>
+                            <label class="form-label">Текст на русском</label>
                             <textarea class="form-control" rows="8" asp-for="Input.TextRu"></textarea>
                             <span asp-validation-for="Input.TextRu" class="text-danger"></span>
                         </div>
@@ -63,8 +63,8 @@
                         </div>
                         <div class="col-12">
                             <div class="d-flex gap-2 flex-wrap">
-                                <button class="btn btn-success" type="submit">Отправить на проверку</button>
-                                <button class="btn btn-outline-light" asp-page-handler="Template" formmethod="post">Загрузить шаблон</button>
+                                <button class="btn btn-success" type="submit">Отправить рассылку</button>
+                                <button class="btn btn-outline-secondary" asp-page-handler="Template" formmethod="post">Подставить шаблон</button>
                             </div>
                         </div>
                     </div>
@@ -75,14 +75,14 @@
             <div class="card-header">Последние рассылки</div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-dark table-striped align-middle mb-0">
+                    <table class="table table-striped align-middle mb-0">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Дата</th>
+                                <th>Создано</th>
                                 <th>Чатов</th>
                                 <th>Успешно</th>
-                                <th>Ошибок</th>
+                                <th>Ошибки</th>
                             </tr>
                         </thead>
                         <tbody>

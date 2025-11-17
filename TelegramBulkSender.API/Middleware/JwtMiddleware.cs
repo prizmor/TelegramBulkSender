@@ -34,8 +34,8 @@ public class JwtMiddleware
             var user = await authService.ValidateRefreshTokenAsync(refreshToken);
             if (user != null)
             {
-                var (accessToken, expires) = tokenService.GenerateAccessToken(user);
-                context.Response.Cookies.Append("access_token", accessToken, new CookieOptions
+                var (newAccessToken, expires) = tokenService.GenerateAccessToken(user);
+                context.Response.Cookies.Append("access_token", newAccessToken, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
@@ -51,7 +51,7 @@ public class JwtMiddleware
                     Expires = DateTimeOffset.UtcNow.AddDays(7)
                 });
 
-                tokenRefreshed = AttachUserToContext(context, accessToken);
+                tokenRefreshed = AttachUserToContext(context, newAccessToken);
             }
         }
 
@@ -63,7 +63,7 @@ public class JwtMiddleware
         try
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var secret = _configuration.GetValue<string>("JWT_SECRET") ?? throw new InvalidOperationException("JWT secret is not configured");
+            var secret = _configuration["Jwt:Secret"] ?? _configuration.GetValue<string>("JWT_SECRET") ?? throw new InvalidOperationException("JWT secret is not configured");
             var key = Encoding.UTF8.GetBytes(secret);
 
             tokenHandler.ValidateToken(token, new TokenValidationParameters

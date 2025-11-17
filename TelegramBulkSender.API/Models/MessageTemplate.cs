@@ -12,11 +12,11 @@ public class MessageTemplate
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    [MaxLength(10000)]
+    [MaxLength(2048)]
     public string TextRu { get; set; } = string.Empty;
 
     [Required]
-    [MaxLength(10000)]
+    [MaxLength(2048)]
     public string TextEn { get; set; } = string.Empty;
 
     public bool IsGlobal { get; set; }

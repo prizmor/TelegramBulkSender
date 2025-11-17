@@ -12,10 +12,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body class="bg-dark text-light">
-    <header class="navbar navbar-expand-lg navbar-dark bg-black border-bottom border-secondary mb-4">
+<body>
+    <header class="navbar navbar-expand-lg app-navbar border-bottom mb-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Telegram Bulk Sender</a>
+            <a class="navbar-brand fw-semibold" href="/">Telegram Bulk Sender</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,28 +23,35 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="/Broadcast">Рассылка</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Chats">Чаты</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/ChatGroups">Группы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/ChatGroups">Группы чатов</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Templates">Шаблоны</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/BroadcastHistory">История</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/BroadcastHistory">История рассылок</a></li>
                     @if (isRoot)
                     {
                         <li class="nav-item"><a class="nav-link" href="/Users">Пользователи</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/UserLogs">Логи</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/UserLogs">Логи действий</a></li>
                     }
                 </ul>
-                <span class="navbar-text">
+                <div class="d-flex align-items-center gap-2">
+                    <button id="theme-toggle" type="button" class="btn btn-sm btn-outline-secondary theme-toggle">
+                        <span class="theme-label">Тёмная тема</span>
+                    </button>
                     @if (!string.IsNullOrEmpty(username))
                     {
-                        <span class="me-3">@username</span>
-                        <a class="btn btn-outline-light btn-sm" href="/Logout">Выход</a>
+                        <span class="navbar-text me-2">@username</span>
+                        <a class="btn btn-outline-primary btn-sm" href="/Logout">Выход</a>
                     }
-                </span>
+                </div>
             </div>
         </div>
     </header>
-    <main class="container">
+
+    <main class="container pb-4">
         @RenderBody()
     </main>
+
+    <div id="toast-placeholder" class="toast-container position-fixed top-0 end-0 p-3"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js"></script>
     @RenderSection("Scripts", required: false)

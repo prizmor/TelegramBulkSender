@@ -1,0 +1,167 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\TelegramBulkSender\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|e:\\telegrambulksender\\telegrambulksender.api\\services\\telegramservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|solutionrelative:telegrambulksender.api\\services\\telegramservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|e:\\telegrambulksender\\telegrambulksender.api\\services\\broadcastservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|solutionrelative:telegrambulksender.api\\services\\broadcastservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|e:\\telegrambulksender\\telegrambulksender.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|solutionrelative:telegrambulksender.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|e:\\telegrambulksender\\telegrambulksender.api\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|solutionrelative:telegrambulksender.api\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\TelegramBulkSender\\TelegramBulkSender.API\\Migrations\\20251117214414_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TelegramBulkSender.API\\Migrations\\20251117214414_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|e:\\telegrambulksender\\telegrambulksender.api\\middleware\\jwtmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|solutionrelative:telegrambulksender.api\\middleware\\jwtmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|e:\\telegrambulksender\\telegrambulksender.api\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|solutionrelative:telegrambulksender.api\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|e:\\telegrambulksender\\telegrambulksender.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|solutionrelative:telegrambulksender.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|e:\\telegrambulksender\\telegrambulksender.api\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2E30126-49D6-8E7D-58D9-9FF16E86B802}|TelegramBulkSender.API\\TelegramBulkSender.API.csproj|solutionrelative:telegrambulksender.api\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TelegramService.cs",
+              "DocumentMoniker": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Services\\TelegramService.cs",
+              "RelativeDocumentMoniker": "TelegramBulkSender.API\\Services\\TelegramService.cs",
+              "ToolTip": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Services\\TelegramService.cs",
+              "RelativeToolTip": "TelegramBulkSender.API\\Services\\TelegramService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T22:49:50.132Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BroadcastService.cs",
+              "DocumentMoniker": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Services\\BroadcastService.cs",
+              "RelativeDocumentMoniker": "TelegramBulkSender.API\\Services\\BroadcastService.cs",
+              "ToolTip": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Services\\BroadcastService.cs",
+              "RelativeToolTip": "TelegramBulkSender.API\\Services\\BroadcastService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T22:49:42.77Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "site.js",
+              "DocumentMoniker": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\wwwroot\\js\\site.js",
+              "RelativeDocumentMoniker": "TelegramBulkSender.API\\wwwroot\\js\\site.js",
+              "ToolTip": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\wwwroot\\js\\site.js",
+              "RelativeToolTip": "TelegramBulkSender.API\\wwwroot\\js\\site.js",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-17T22:40:41.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "20251117214414_init.cs",
+              "DocumentMoniker": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Migrations\\20251117214414_init.cs",
+              "RelativeDocumentMoniker": "TelegramBulkSender.API\\Migrations\\20251117214414_init.cs",
+              "ToolTip": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Migrations\\20251117214414_init.cs",
+              "RelativeToolTip": "TelegramBulkSender.API\\Migrations\\20251117214414_init.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T21:44:59.003Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "JwtMiddleware.cs",
+              "DocumentMoniker": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Middleware\\JwtMiddleware.cs",
+              "RelativeDocumentMoniker": "TelegramBulkSender.API\\Middleware\\JwtMiddleware.cs",
+              "ToolTip": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Middleware\\JwtMiddleware.cs",
+              "RelativeToolTip": "TelegramBulkSender.API\\Middleware\\JwtMiddleware.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T21:44:51.165Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "TelegramBulkSender.API\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "TelegramBulkSender.API\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAH8AAAAAAAAAAAAUwBAAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T21:44:33.176Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "TelegramBulkSender.API\\Services\\AuthService.cs",
+              "ToolTip": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Services\\AuthService.cs",
+              "RelativeToolTip": "TelegramBulkSender.API\\Services\\AuthService.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAvwBQAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T21:21:10.97Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Program.cs",
+              "RelativeDocumentMoniker": "TelegramBulkSender.API\\Program.cs",
+              "ToolTip": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\Program.cs",
+              "RelativeToolTip": "TelegramBulkSender.API\\Program.cs",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAAAIEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T21:21:21.882Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\appsettings.json",
+              "RelativeDocumentMoniker": "TelegramBulkSender.API\\appsettings.json",
+              "ToolTip": "E:\\TelegramBulkSender\\TelegramBulkSender.API\\appsettings.json",
+              "RelativeToolTip": "TelegramBulkSender.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-17T21:19:31.613Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

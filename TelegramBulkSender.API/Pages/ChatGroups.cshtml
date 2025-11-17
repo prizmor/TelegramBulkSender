@@ -39,7 +39,7 @@
         <div class="card card-dark">
             <div class="card-header">Существующие группы</div>
             <div class="table-responsive">
-                <table class="table table-dark table-striped mb-0">
+                <table class="table table-striped mb-0 align-middle">
                     <thead>
                         <tr>
                             <th>Название</th>
@@ -53,9 +53,9 @@
                         {
                             <tr>
                                 <td>@group.Name</td>
-                                <td>@(group.IsGlobal ? "Глобальная" : "Личная")</td>
+                                <td>@(group.IsGlobal ? "Глобальная" : "Пользовательская")</td>
                                 <td>@group.Members.Count</td>
-                                <td>
+                                <td class="text-end">
                                     <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Удалить группу?');">
                                         <input type="hidden" name="id" value="@group.Id" />
                                         <button class="btn btn-sm btn-outline-danger">Удалить</button>

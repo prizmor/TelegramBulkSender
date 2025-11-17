@@ -20,7 +20,7 @@ public class AuthService
 
     public async Task EnsureRootUserAsync()
     {
-        var rootPassword = _configuration.GetValue<string>("ROOT_PASSWORD") ?? throw new InvalidOperationException("ROOT_PASSWORD is not configured");
+        var rootPassword = _configuration.GetValue<string>("RootPassword") ?? throw new InvalidOperationException("RootPassword is not configured");
         var rootUser = await _dbContext.Users.SingleOrDefaultAsync(u => u.Username == "root");
         if (rootUser == null)
         {

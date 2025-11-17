@@ -14,11 +14,11 @@ public class Broadcast
     public virtual User User { get; set; } = null!;
 
     [Required]
-    [MaxLength(10000)]
+    [MaxLength(2048)]
     public string TextRu { get; set; } = string.Empty;
 
     [Required]
-    [MaxLength(10000)]
+    [MaxLength(2048)]
     public string TextEn { get; set; } = string.Empty;
 
     public DateTime CreatedAt { get; set; }

@@ -17,7 +17,7 @@ public class JwtTokenService
 
     public (string token, DateTime expires) GenerateAccessToken(User user)
     {
-        var secret = _configuration.GetValue<string>("JWT_SECRET") ?? throw new InvalidOperationException("JWT secret not configured");
+        var secret = _configuration["Jwt:Secret"] ?? _configuration.GetValue<string>("JWT_SECRET") ?? throw new InvalidOperationException("JWT secret not configured");
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
