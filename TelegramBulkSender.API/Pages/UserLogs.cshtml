@@ -1,0 +1,30 @@
+@page
+@model TelegramBulkSender.API.Pages.UserLogsModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Policy = "RootOnly")]
+@{
+    ViewData["Title"] = "Логи пользователей";
+}
+<h1 class="h3 mb-3">Логи пользователей</h1>
+<div class="table-responsive">
+    <table class="table table-dark table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Пользователь</th>
+                <th>Дата</th>
+                <th>Действие</th>
+                <th>Детали</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var log in Model.Logs)
+            {
+                <tr>
+                    <td>@log.User.Username</td>
+                    <td>@log.CreatedAt.ToLocalTime()</td>
+                    <td>@log.Action</td>
+                    <td><pre class="mb-0 text-white-50">@log.Details</pre></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
