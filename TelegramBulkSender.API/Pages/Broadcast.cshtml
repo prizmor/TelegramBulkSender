@@ -27,8 +27,8 @@
                         @foreach (var chat in Model.ClientChats)
                         {
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="Input.SelectedChats" value="@chat.TelegramChatId" id="chat_@chat.TelegramChatId" />
-                                <label class="form-check-label" for="chat_@chat.TelegramChatId">@chat.Title</label>
+                                <input class="form-check-input" type="checkbox" name="Input.SelectedChats" value="@chat.Id" id="chat_@chat.Id" />
+                                <label class="form-check-label" for="chat_@chat.Id">@chat.Title</label>
                             </div>
                         }
                     </div>

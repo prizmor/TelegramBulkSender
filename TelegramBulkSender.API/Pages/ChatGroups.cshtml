@@ -26,7 +26,7 @@
                         <select multiple class="form-select" asp-for="Input.ChatIds">
                             @foreach (var chat in Model.AllChats)
                             {
-                                <option value="@chat.TelegramChatId">@chat.Title</option>
+                                <option value="@chat.Id">@chat.Title</option>
                             }
                         </select>
                     </div>

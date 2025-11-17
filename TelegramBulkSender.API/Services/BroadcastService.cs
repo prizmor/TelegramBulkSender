@@ -15,22 +15,23 @@ public class BroadcastService
         _telegramService = telegramService;
     }
 
-    public async Task<Broadcast> CreateBroadcastAsync(int userId, string textRu, string textEn, IEnumerable<long> chatIds)
+    public async Task<Broadcast> CreateBroadcastAsync(int userId, string textRu, string textEn, IEnumerable<Chat> chats)
     {
+        var chatList = chats.DistinctBy(c => c.Id).ToList();
         var broadcast = new Broadcast
         {
             UserId = userId,
             TextRu = textRu,
             TextEn = textEn,
             CreatedAt = DateTime.UtcNow,
-            TotalChats = chatIds.Count()
+            TotalChats = chatList.Count
         };
         _dbContext.Broadcasts.Add(broadcast);
         await _dbContext.SaveChangesAsync();
 
-        foreach (var chatId in chatIds)
+        foreach (var chat in chatList)
         {
-            await _telegramService.SendMessageAsync(_dbContext, broadcast, chatId, textRu, Enumerable.Empty<string>(), false);
+            await _telegramService.SendMessageAsync(_dbContext, broadcast, chat.TelegramChatId, textRu, Enumerable.Empty<string>(), false);
             await Task.Delay(TimeSpan.FromSeconds(2));
         }
 

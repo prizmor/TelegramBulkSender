@@ -62,12 +62,23 @@ public class BroadcastModel : PageModel
         var chatIds = new HashSet<long>(Input.SelectedChats);
         if (Input.SelectedGroups.Any())
         {
-            var groups = await _dbContext.ChatGroups.Include(g => g.Members).Where(g => Input.SelectedGroups.Contains(g.Id)).ToListAsync();
+            var groups = await _dbContext.ChatGroups
+                .Include(g => g.Members)
+                .ThenInclude(m => m.Chat)
+                .Where(g => Input.SelectedGroups.Contains(g.Id))
+                .ToListAsync();
             foreach (var group in groups)
             {
                 foreach (var member in group.Members)
                 {
-                    chatIds.Add(member.ChatId);
+                    if (member.Chat != null)
+                    {
+                        chatIds.Add(member.Chat.Id);
+                    }
+                    else
+                    {
+                        chatIds.Add(member.ChatId);
+                    }
                 }
             }
         }
@@ -79,8 +90,16 @@ public class BroadcastModel : PageModel
             return Page();
         }
 
-        await _broadcastService.CreateBroadcastAsync(userId, Input.TextRu, Input.TextEn, chatIds);
-        TempData["StatusMessage"] = $"Рассылка отправлена в {chatIds.Count} чатов";
+        var chats = await _dbContext.Chats.Where(c => chatIds.Contains(c.Id)).ToListAsync();
+        if (!chats.Any())
+        {
+            ModelState.AddModelError(string.Empty, "Не удалось найти выбранные чаты в базе данных");
+            await OnGetAsync();
+            return Page();
+        }
+
+        await _broadcastService.CreateBroadcastAsync(userId, Input.TextRu, Input.TextEn, chats);
+        TempData["StatusMessage"] = $"Рассылка отправлена в {chats.Count} чатов";
         return RedirectToPage();
     }
 
