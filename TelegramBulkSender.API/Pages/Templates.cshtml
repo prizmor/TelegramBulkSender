@@ -9,24 +9,24 @@
 <div class="row g-4">
     <div class="col-lg-5">
         <div class="card card-dark">
-            <div class="card-header">Новый шаблон</div>
+            <div class="card-header">Создать шаблон</div>
             <div class="card-body">
                 <form method="post">
                     <div class="mb-3">
-                        <label asp-for="Input.Name" class="form-label"></label>
+                        <label asp-for="Input.Name" class="form-label">Название</label>
                         <input asp-for="Input.Name" class="form-control" />
                         <span asp-validation-for="Input.Name" class="text-danger"></span>
                     </div>
                     <div class="form-check form-switch mb-3">
                         <input class="form-check-input" asp-for="Input.IsGlobal" />
-                        <label class="form-check-label" asp-for="Input.IsGlobal">Глобальный шаблон</label>
+                        <label class="form-check-label" asp-for="Input.IsGlobal">Глобальный шаблон (доступен всем)</label>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Input.TextRu" class="form-label"></label>
+                        <label asp-for="Input.TextRu" class="form-label">Текст RU</label>
                         <textarea asp-for="Input.TextRu" class="form-control" rows="4"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Input.TextEn" class="form-label"></label>
+                        <label asp-for="Input.TextEn" class="form-label">Текст EN</label>
                         <textarea asp-for="Input.TextEn" class="form-control" rows="4"></textarea>
                     </div>
                     <button class="btn btn-primary w-100">Создать</button>
@@ -36,7 +36,7 @@
     </div>
     <div class="col-lg-7">
         <div class="card card-dark">
-            <div class="card-header">Сохранённые шаблоны</div>
+            <div class="card-header">Доступные шаблоны</div>
             <div class="list-group list-group-flush">
                 @foreach (var template in Model.Templates)
                 {
@@ -44,7 +44,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <strong>@template.Name</strong>
-                                <div class="text-muted small">@(template.IsGlobal ? "Глобальный" : "Пользовательский")</div>
+                                <div class="text-muted small">@(template.IsGlobal ? "Глобальный" : "Личный")</div>
                             </div>
                             <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Удалить шаблон?');">
                                 <input type="hidden" name="id" value="@template.Id" />
@@ -62,3 +62,4 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+

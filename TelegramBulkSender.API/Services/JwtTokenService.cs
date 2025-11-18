@@ -28,7 +28,7 @@ public class JwtTokenService
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim("role", user.IsRoot ? "Root" : "User")
+                new Claim(ClaimTypes.Role, user.IsRoot ? "Root" : "User")
             }),
             Expires = expires,
             SigningCredentials = credentials

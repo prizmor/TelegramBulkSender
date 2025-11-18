@@ -1,7 +1,8 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using TelegramBulkSender.API.Models;
 using TelegramBulkSender.API.Services;
 
@@ -11,10 +12,12 @@ namespace TelegramBulkSender.API.Pages;
 public class TemplatesModel : PageModel
 {
     private readonly TemplateService _templateService;
+    private readonly UserLogService _userLogService;
 
-    public TemplatesModel(TemplateService templateService)
+    public TemplatesModel(TemplateService templateService, UserLogService userLogService)
     {
         _templateService = templateService;
+        _userLogService = userLogService;
     }
 
     public List<MessageTemplate> Templates { get; set; } = new();
@@ -48,13 +51,17 @@ public class TemplatesModel : PageModel
         }
 
         var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
-        await _templateService.CreateTemplateAsync(Input.Name, Input.TextRu, Input.TextEn, Input.IsGlobal, userId);
+        var isRoot = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Root");
+        var template = await _templateService.CreateTemplateAsync(Input.Name, Input.TextRu, Input.TextEn, Input.IsGlobal, userId, isRoot);
+        await _userLogService.LogAsync(userId, "CreateTemplate", new { template.Id, template.Name, template.IsGlobal });
         return RedirectToPage();
     }
 
     public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
+        var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
         await _templateService.DeleteTemplateAsync(id);
+        await _userLogService.LogAsync(userId, "DeleteTemplate", new { id });
         return RedirectToPage();
     }
 }

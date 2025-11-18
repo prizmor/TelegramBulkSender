@@ -20,7 +20,9 @@ public class AuthService
 
     public async Task EnsureRootUserAsync()
     {
-        var rootPassword = _configuration.GetValue<string>("RootPassword") ?? throw new InvalidOperationException("RootPassword is not configured");
+        var rootPassword = _configuration.GetValue<string>("ROOT_PASSWORD")
+                           ?? _configuration.GetValue<string>("RootPassword")
+                           ?? throw new InvalidOperationException("ROOT_PASSWORD is not configured");
         var rootUser = await _dbContext.Users.SingleOrDefaultAsync(u => u.Username == "root");
         if (rootUser == null)
         {
@@ -60,7 +62,7 @@ public class AuthService
         {
             UserId = user.Id,
             RefreshToken = refreshToken,
-            ExpiresAt = DateTime.UtcNow.AddDays(7),
+            ExpiresAt = DateTime.UtcNow.AddHours(24),
             LastActivityAt = DateTime.UtcNow
         };
         _dbContext.UserSessions.Add(session);
@@ -72,12 +74,21 @@ public class AuthService
     public async Task<User?> ValidateRefreshTokenAsync(string refreshToken)
     {
         var session = await _dbContext.UserSessions.Include(s => s.User).SingleOrDefaultAsync(s => s.RefreshToken == refreshToken);
-        if (session == null || session.ExpiresAt < DateTime.UtcNow)
+        if (session == null)
         {
             return null;
         }
 
-        session.LastActivityAt = DateTime.UtcNow;
+        var now = DateTime.UtcNow;
+        if (session.LastActivityAt.AddHours(24) < now)
+        {
+            _dbContext.UserSessions.Remove(session);
+            await _dbContext.SaveChangesAsync();
+            return null;
+        }
+
+        session.LastActivityAt = now;
+        session.ExpiresAt = now.AddHours(24);
         await _dbContext.SaveChangesAsync();
         return session.User;
     }
@@ -120,6 +131,18 @@ public class AuthService
         }
 
         _dbContext.Users.Remove(user);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task ChangeOwnPasswordAsync(int userId, string currentPassword, string newPassword)
+    {
+        var user = await _dbContext.Users.FindAsync(userId) ?? throw new KeyNotFoundException("User not found");
+        if (!BCrypt.Net.BCrypt.Verify(currentPassword, user.PasswordHash))
+        {
+            throw new InvalidOperationException("Current password is incorrect");
+        }
+
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
         await _dbContext.SaveChangesAsync();
     }
 

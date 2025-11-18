@@ -22,7 +22,7 @@
                 <th>ID</th>
                 <th>Название</th>
                 <th>Тип</th>
-                <th>Клиент</th>
+                <th>Клиентский</th>
                 <th>Системный</th>
                 <th>Язык</th>
             </tr>
@@ -52,7 +52,7 @@
                         <form method="post" asp-page-handler="Language" class="d-flex gap-2">
                             <input type="hidden" name="chatId" value="@chat.Id" />
                             <select name="language" class="form-select form-select-sm">
-                                <option value="" selected="@(string.IsNullOrEmpty(chat.Language))">auto</option>
+                                <option value="" selected="@(string.IsNullOrEmpty(chat.Language))">Авто</option>
                                 <option value="ru" selected="@(chat.Language == "ru")">RU</option>
                                 <option value="en" selected="@(chat.Language == "en")">EN</option>
                             </select>
@@ -64,3 +64,4 @@
         </tbody>
     </table>
 </div>
+

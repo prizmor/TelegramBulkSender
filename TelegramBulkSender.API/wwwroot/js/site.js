@@ -21,7 +21,6 @@
     const label = toggle ? toggle.querySelector('.theme-label') : null;
 
     const applyTheme = theme => {
-        debugger
         if (theme === 'dark') {
             root.setAttribute('data-theme', 'dark');
         } else {
@@ -45,3 +44,4 @@
         });
     }
 })();
+

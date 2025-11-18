@@ -4,13 +4,31 @@
     ViewData["Title"] = "История рассылок";
 }
 <h1 class="h3 mb-3">История рассылок</h1>
+<form method="get" class="row g-3 mb-3">
+    <div class="col-md-3">
+        <label class="form-label">Пользователь (ID)</label>
+        <input type="number" name="UserId" value="@Model.UserId" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">С даты</label>
+        <input type="date" name="From" value="@(Model.From?.ToString("yyyy-MM-dd"))" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">По дату</label>
+        <input type="date" name="To" value="@(Model.To?.ToString("yyyy-MM-dd"))" class="form-control" />
+    </div>
+    <div class="col-md-3 d-flex align-items-end gap-2">
+        <button class="btn btn-primary">Фильтровать</button>
+        <a class="btn btn-outline-secondary" href="/BroadcastHistory">Сбросить</a>
+    </div>
+</form>
 <div class="table-responsive">
     <table class="table table-striped align-middle">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Создано</th>
-                <th>Пользователь</th>
+                <th>Дата</th>
+                <th>Отправитель</th>
                 <th>Чатов</th>
                 <th>Успешно</th>
                 <th>Ошибки</th>
@@ -31,3 +49,4 @@
         </tbody>
     </table>
 </div>
+

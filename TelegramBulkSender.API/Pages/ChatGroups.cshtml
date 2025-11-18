@@ -7,18 +7,18 @@
 <div class="row g-4">
     <div class="col-lg-4">
         <div class="card card-dark">
-            <div class="card-header">Новая группа</div>
+            <div class="card-header">Создать группу</div>
             <div class="card-body">
                 <form method="post">
                     <div class="mb-3">
-                        <label asp-for="Input.Name" class="form-label"></label>
+                        <label asp-for="Input.Name" class="form-label">Название</label>
                         <input asp-for="Input.Name" class="form-control" />
                         <span asp-validation-for="Input.Name" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" asp-for="Input.IsGlobal" />
-                            <label class="form-check-label" asp-for="Input.IsGlobal">Глобальная группа</label>
+                            <label class="form-check-label" asp-for="Input.IsGlobal">Глобальная группа (для всех пользователей)</label>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -53,7 +53,7 @@
                         {
                             <tr>
                                 <td>@group.Name</td>
-                                <td>@(group.IsGlobal ? "Глобальная" : "Пользовательская")</td>
+                                <td>@(group.IsGlobal ? "Глобальная" : "Личная")</td>
                                 <td>@group.Members.Count</td>
                                 <td class="text-end">
                                     <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Удалить группу?');">
@@ -72,3 +72,4 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+

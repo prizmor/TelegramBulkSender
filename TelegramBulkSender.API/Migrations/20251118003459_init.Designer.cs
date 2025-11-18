@@ -11,7 +11,7 @@ using TelegramBulkSender.API.Data;
 namespace TelegramBulkSender.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251117220409_init")]
+    [Migration("20251118003459_init")]
     partial class init
     {
         /// <inheritdoc />

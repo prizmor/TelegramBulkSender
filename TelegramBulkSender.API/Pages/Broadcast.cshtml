@@ -9,7 +9,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Получатели</span>
                 <form method="post" asp-page-handler="Sync" class="ms-auto">
-                    <button class="btn btn-sm btn-outline-primary">Обновить список</button>
+                    <button class="btn btn-sm btn-outline-primary">Обновить чаты</button>
                 </form>
             </div>
             <div class="card-body">
@@ -52,19 +52,19 @@
                 <form method="post">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label">Текст на русском</label>
+                            <label class="form-label">Текст RU</label>
                             <textarea class="form-control" rows="8" asp-for="Input.TextRu"></textarea>
                             <span asp-validation-for="Input.TextRu" class="text-danger"></span>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">English text</label>
+                            <label class="form-label">Текст EN</label>
                             <textarea class="form-control" rows="8" asp-for="Input.TextEn"></textarea>
                             <span asp-validation-for="Input.TextEn" class="text-danger"></span>
                         </div>
                         <div class="col-12">
                             <div class="d-flex gap-2 flex-wrap">
-                                <button class="btn btn-success" type="submit">Отправить рассылку</button>
-                                <button class="btn btn-outline-secondary" asp-page-handler="Template" formmethod="post">Подставить шаблон</button>
+                                <button class="btn btn-success" type="submit">Отправить</button>
+                                <button class="btn btn-outline-secondary" asp-page-handler="Template" formmethod="post">Выбрать шаблон</button>
                             </div>
                         </div>
                     </div>
@@ -79,9 +79,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Создано</th>
+                                <th>Дата</th>
                                 <th>Чатов</th>
-                                <th>Успешно</th>
+                                <th>Успех</th>
                                 <th>Ошибки</th>
                             </tr>
                         </thead>
@@ -106,3 +106,4 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+

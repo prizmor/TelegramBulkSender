@@ -28,8 +28,13 @@ public class TemplateService
         return await query.OrderBy(t => t.Name).ToListAsync();
     }
 
-    public async Task<MessageTemplate> CreateTemplateAsync(string name, string textRu, string textEn, bool isGlobal, int? userId)
+    public async Task<MessageTemplate> CreateTemplateAsync(string name, string textRu, string textEn, bool isGlobal, int userId, bool isUserRoot)
     {
+        if (isGlobal && !isUserRoot)
+        {
+            throw new InvalidOperationException("Only root user can create global templates");
+        }
+
         var template = new MessageTemplate
         {
             Name = name,

@@ -31,8 +31,13 @@ public class ChatGroupService
         return await query.OrderBy(g => g.Name).ToListAsync();
     }
 
-    public async Task<ChatGroup> CreateGroupAsync(string name, bool isGlobal, int? userId, IEnumerable<long> chatIds)
+    public async Task<ChatGroup> CreateGroupAsync(string name, bool isGlobal, int userId, bool isUserRoot, IEnumerable<long> chatIds)
     {
+        if (isGlobal && !isUserRoot)
+        {
+            throw new InvalidOperationException("Only root user can create global groups");
+        }
+
         var chatIdList = chatIds.Distinct().ToList();
         var existingChatIds = await _dbContext.Chats
             .Where(c => chatIdList.Contains(c.Id))
@@ -79,9 +84,19 @@ public class ChatGroupService
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteGroupAsync(int groupId)
+    public async Task DeleteGroupAsync(int groupId, int userId, bool isUserRoot)
     {
         var group = await _dbContext.ChatGroups.FindAsync(groupId) ?? throw new KeyNotFoundException("Group not found");
+        if (group.IsGlobal && !isUserRoot)
+        {
+            throw new InvalidOperationException("Only root user can delete global groups");
+        }
+
+        if (!isUserRoot && group.UserId != userId)
+        {
+            throw new InvalidOperationException("You can delete only your own groups");
+        }
+
         _dbContext.ChatGroups.Remove(group);
         await _dbContext.SaveChangesAsync();
     }

@@ -1,7 +1,8 @@
+@using System.Security.Claims
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     var username = HttpContextAccessor.HttpContext?.User?.Identity?.Name;
-    var isRoot = HttpContextAccessor.HttpContext?.User?.Claims.Any(c => c.Type == "role" && c.Value == "Root") == true;
+    var isRoot = HttpContextAccessor.HttpContext?.User?.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Root") == true;
 }
 <!DOCTYPE html>
 <html lang="ru">
@@ -22,14 +23,17 @@
             <div class="collapse navbar-collapse" id="navbarsExample">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="/Broadcast">Рассылка</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Chats">Чаты</a></li>
+                    @if (isRoot)
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/Chats">Чаты</a></li>
+                    }
                     <li class="nav-item"><a class="nav-link" href="/ChatGroups">Группы чатов</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Templates">Шаблоны</a></li>
                     <li class="nav-item"><a class="nav-link" href="/BroadcastHistory">История рассылок</a></li>
                     @if (isRoot)
                     {
                         <li class="nav-item"><a class="nav-link" href="/Users">Пользователи</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/UserLogs">Логи действий</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/UserLogs">Логи пользователей</a></li>
                     }
                 </ul>
                 <div class="d-flex align-items-center gap-2">
@@ -39,6 +43,7 @@
                     @if (!string.IsNullOrEmpty(username))
                     {
                         <span class="navbar-text me-2">@username</span>
+                        <a class="btn btn-outline-secondary btn-sm" href="/Profile">Смена пароля</a>
                         <a class="btn btn-outline-primary btn-sm" href="/Logout">Выход</a>
                     }
                 </div>
@@ -57,3 +62,4 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+

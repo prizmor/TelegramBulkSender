@@ -7,16 +7,16 @@
 <div class="row g-4">
     <div class="col-lg-4">
         <div class="card card-dark">
-            <div class="card-header">Новый пользователь</div>
+            <div class="card-header">Создать пользователя</div>
             <div class="card-body">
                 <form method="post">
                     <div class="mb-3">
-                        <label asp-for="Input.Username" class="form-label"></label>
+                        <label asp-for="Input.Username" class="form-label">Логин</label>
                         <input asp-for="Input.Username" class="form-control" />
                         <span asp-validation-for="Input.Username" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Input.Password" class="form-label"></label>
+                        <label asp-for="Input.Password" class="form-label">Пароль</label>
                         <input asp-for="Input.Password" class="form-control" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
@@ -36,10 +36,11 @@
                 <table class="table table-striped mb-0 align-middle">
                     <thead>
                         <tr>
-                            <th>Username</th>
+                            <th>Логин</th>
                             <th>Root</th>
                             <th>Создан</th>
                             <th>Последний вход</th>
+                            <th>Смена пароля</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -51,6 +52,13 @@
                                 <td>@(user.IsRoot ? "Да" : "Нет")</td>
                                 <td>@user.CreatedAt.ToLocalTime()</td>
                                 <td>@user.LastLoginAt?.ToLocalTime()</td>
+                                <td>
+                                    <form method="post" asp-page-handler="ChangePassword" class="d-flex gap-2">
+                                        <input type="hidden" asp-for="PasswordInput.UserId" value="@user.Id" />
+                                        <input asp-for="PasswordInput.NewPassword" class="form-control form-control-sm" placeholder="Новый пароль" />
+                                        <button class="btn btn-sm btn-outline-primary">Изменить</button>
+                                    </form>
+                                </td>
                                 <td class="text-end">
                                     @if (!user.IsRoot)
                                     {
@@ -71,3 +79,4 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+

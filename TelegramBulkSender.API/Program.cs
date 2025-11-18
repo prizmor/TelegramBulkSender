@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MySqlConnector;
 using Serilog;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.RateLimiting;
 using TelegramBulkSender.API.Data;
@@ -98,7 +99,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Authenticated", policy => policy.RequireAuthenticatedUser());
-    options.AddPolicy("RootOnly", policy => policy.RequireClaim("role", "Root"));
+    options.AddPolicy("RootOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Root"));
 });
 
 builder.Services.AddHttpContextAccessor();

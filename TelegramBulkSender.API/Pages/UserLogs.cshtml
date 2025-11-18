@@ -5,6 +5,31 @@
     ViewData["Title"] = "Логи пользователей";
 }
 <h1 class="h3 mb-3">Логи пользователей</h1>
+<form method="get" class="row g-3 mb-3">
+    <div class="col-md-3">
+        <label class="form-label">Пользователь (ID)</label>
+        <input type="number" name="UserId" value="@Model.UserId" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">С даты</label>
+        <input type="date" name="From" value="@(Model.From?.ToString("yyyy-MM-dd"))" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">По дату</label>
+        <input type="date" name="To" value="@(Model.To?.ToString("yyyy-MM-dd"))" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Действие</label>
+        <input type="text" name="Action" value="@Model.Action" class="form-control" />
+    </div>
+    <div class="col-12 d-flex justify-content-between align-items-end">
+        <div>
+            <button class="btn btn-primary me-2">Фильтровать</button>
+            <a class="btn btn-outline-secondary" href="/UserLogs">Сбросить</a>
+        </div>
+        <a class="btn btn-outline-success" asp-page-handler="Export">Экспорт CSV</a>
+    </div>
+</form>
 <div class="table-responsive">
     <table class="table table-striped align-middle">
         <thead>
@@ -28,3 +53,4 @@
         </tbody>
     </table>
 </div>
+

@@ -83,7 +83,7 @@ public class JwtMiddleware
                 if (int.TryParse(userId, out var parsedUserId))
                 {
                     context.Items["UserId"] = parsedUserId;
-                    context.Items["UserRole"] = jwtToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value;
+                    context.Items["UserRole"] = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
                     return true;
                 }
             }
