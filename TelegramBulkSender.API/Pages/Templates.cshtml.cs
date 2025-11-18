@@ -57,6 +57,21 @@ public class TemplatesModel : PageModel
         return RedirectToPage();
     }
 
+    public async Task<IActionResult> OnPostUpdateAsync(int id, string name, string textRu, string textEn)
+    {
+        if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(textRu) || string.IsNullOrWhiteSpace(textEn))
+        {
+            ModelState.AddModelError(string.Empty, "Все поля шаблона обязательны");
+            await OnGetAsync();
+            return Page();
+        }
+
+        var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
+        await _templateService.UpdateTemplateAsync(id, name, textRu, textEn);
+        await _userLogService.LogAsync(userId, "UpdateTemplate", new { id, name });
+        return RedirectToPage();
+    }
+
     public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
         var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");

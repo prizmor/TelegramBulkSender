@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3">Чаты</h1>
     <form method="post" asp-page-handler="Sync">
-        <button class="btn btn-outline-primary">Синхронизировать с Telegram</button>
+        <button class="btn btn-outline-primary">Синхронизировать чаты с Telegram</button>
     </form>
 </div>
 <form method="get" class="mb-3">
@@ -52,7 +52,7 @@
                         <form method="post" asp-page-handler="Language" class="d-flex gap-2">
                             <input type="hidden" name="chatId" value="@chat.Id" />
                             <select name="language" class="form-select form-select-sm">
-                                <option value="" selected="@(string.IsNullOrEmpty(chat.Language))">Авто</option>
+                                <option value="" selected="@(string.IsNullOrEmpty(chat.Language))">Не задан</option>
                                 <option value="ru" selected="@(chat.Language == "ru")">RU</option>
                                 <option value="en" selected="@(chat.Language == "en")">EN</option>
                             </select>

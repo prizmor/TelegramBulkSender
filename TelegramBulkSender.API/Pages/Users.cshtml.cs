@@ -1,6 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using TelegramBulkSender.API.Models;
 using TelegramBulkSender.API.Services;
 
@@ -19,10 +20,10 @@ public class UsersModel : PageModel
 
     public IEnumerable<User> Users { get; set; } = Enumerable.Empty<User>();
 
-    [BindProperty]
+    [BindProperty, ValidateNever]
     public CreateUserInput Input { get; set; } = new();
 
-    [BindProperty]
+    [BindProperty, ValidateNever]
     public ChangePasswordInput PasswordInput { get; set; } = new();
 
     public class CreateUserInput
@@ -50,6 +51,9 @@ public class UsersModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        ModelState.Clear();
+        TryValidateModel(Input, nameof(Input));
+
         if (!ModelState.IsValid)
         {
             await OnGetAsync();
@@ -72,6 +76,9 @@ public class UsersModel : PageModel
 
     public async Task<IActionResult> OnPostChangePasswordAsync()
     {
+        ModelState.Clear();
+        TryValidateModel(PasswordInput, nameof(PasswordInput));
+
         if (!ModelState.IsValid)
         {
             await OnGetAsync();

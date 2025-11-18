@@ -9,7 +9,7 @@
 <div class="row g-4">
     <div class="col-lg-5">
         <div class="card card-dark">
-            <div class="card-header">Создать шаблон</div>
+            <div class="card-header">Создание шаблона</div>
             <div class="card-body">
                 <form method="post">
                     <div class="mb-3">
@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-check form-switch mb-3">
                         <input class="form-check-input" asp-for="Input.IsGlobal" />
-                        <label class="form-check-label" asp-for="Input.IsGlobal">Глобальный шаблон (доступен всем)</label>
+                        <label class="form-check-label" asp-for="Input.IsGlobal">Глобальный шаблон (виден всем пользователям)</label>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Input.TextRu" class="form-label">Текст RU</label>
@@ -41,18 +41,29 @@
                 @foreach (var template in Model.Templates)
                 {
                     <div class="list-group-item bg-transparent">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <strong>@template.Name</strong>
-                                <div class="text-muted small">@(template.IsGlobal ? "Глобальный" : "Личный")</div>
+                        <form method="post" asp-page-handler="Update" class="mb-2">
+                            <input type="hidden" name="id" value="@template.Id" />
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="flex-grow-1 me-3">
+                                    <label class="form-label mb-1 small">Название</label>
+                                    <input name="name" class="form-control form-control-sm" value="@template.Name" />
+                                    <div class="text-muted small mt-1">@(template.IsGlobal ? "Глобальный" : "Личный")</div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary align-self-start mt-4">Сохранить</button>
                             </div>
-                            <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Удалить шаблон?');">
-                                <input type="hidden" name="id" value="@template.Id" />
-                                <button class="btn btn-sm btn-outline-danger">Удалить</button>
-                            </form>
-                        </div>
-                        <p class="mt-2 mb-1">@template.TextRu</p>
-                        <p class="mb-0 text-muted">@template.TextEn</p>
+                            <div class="mb-2">
+                                <label class="form-label mb-1 small">Текст RU</label>
+                                <textarea name="textRu" class="form-control form-control-sm" rows="2">@template.TextRu</textarea>
+                            </div>
+                            <div>
+                                <label class="form-label mb-1 small">Текст EN</label>
+                                <textarea name="textEn" class="form-control form-control-sm" rows="2">@template.TextEn</textarea>
+                            </div>
+                        </form>
+                        <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Удалить шаблон?');">
+                            <input type="hidden" name="id" value="@template.Id" />
+                            <button class="btn btn-sm btn-outline-danger">Удалить</button>
+                        </form>
                     </div>
                 }
             </div>

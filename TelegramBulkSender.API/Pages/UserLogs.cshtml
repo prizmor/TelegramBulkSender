@@ -34,6 +34,7 @@
     <table class="table table-striped align-middle">
         <thead>
             <tr>
+                <th>ID пользователя</th>
                 <th>Пользователь</th>
                 <th>Дата</th>
                 <th>Действие</th>
@@ -44,6 +45,7 @@
             @foreach (var log in Model.Logs)
             {
                 <tr>
+                    <td>@log.UserId</td>
                     <td>@log.User.Username</td>
                     <td>@log.CreatedAt.ToLocalTime()</td>
                     <td>@log.Action</td>

@@ -37,9 +37,9 @@ public class ChatService
             chat.IsSystemChat = isSystem.Value;
         }
 
-        if (!string.IsNullOrEmpty(language))
+        if (language != null)
         {
-            chat.Language = language;
+            chat.Language = string.IsNullOrEmpty(language) ? null : language;
         }
 
         await _dbContext.SaveChangesAsync();

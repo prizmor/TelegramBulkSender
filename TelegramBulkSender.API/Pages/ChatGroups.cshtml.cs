@@ -30,6 +30,8 @@ public class ChatGroupsModel : PageModel
 
     public class GroupInput
     {
+        public int? Id { get; set; }
+
         [Required]
         public string Name { get; set; } = string.Empty;
         public bool IsGlobal { get; set; }
@@ -37,25 +39,47 @@ public class ChatGroupsModel : PageModel
         public List<long> ChatIds { get; set; } = new();
     }
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(int? id)
     {
         var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
         Groups = await _chatGroupService.GetGroupsAsync(userId, includeGlobal: true);
-        AllChats = await _chatService.GetChatsAsync(null);
+        AllChats = (await _chatService.GetChatsAsync(null)).Where(c => c.IsClient).ToList();
+
+        if (id.HasValue)
+        {
+            var group = Groups.SingleOrDefault(g => g.Id == id.Value);
+            if (group != null)
+            {
+                Input.Id = group.Id;
+                Input.Name = group.Name;
+                Input.IsGlobal = group.IsGlobal;
+                Input.ChatIds = group.Members.Select(m => m.ChatId).ToList();
+            }
+        }
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
         {
-            await OnGetAsync();
+            await OnGetAsync(Input.Id);
             return Page();
         }
 
         var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
         var isRoot = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Root");
-        var group = await _chatGroupService.CreateGroupAsync(Input.Name, Input.IsGlobal, userId, isRoot, Input.ChatIds);
-        await _userLogService.LogAsync(userId, "CreateChatGroup", new { group.Id, group.Name, group.IsGlobal });
+
+        if (Input.Id.HasValue)
+        {
+            await _chatGroupService.UpdateGroupAsync(Input.Id.Value, Input.Name, Input.ChatIds);
+            await _userLogService.LogAsync(userId, "UpdateChatGroup", new { Input.Id, Input.Name });
+        }
+        else
+        {
+            var group = await _chatGroupService.CreateGroupAsync(Input.Name, Input.IsGlobal, userId, isRoot, Input.ChatIds);
+            await _userLogService.LogAsync(userId, "CreateChatGroup", new { group.Id, group.Name, group.IsGlobal });
+        }
+
         return RedirectToPage();
     }
 

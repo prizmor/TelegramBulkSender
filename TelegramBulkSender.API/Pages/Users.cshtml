@@ -7,17 +7,17 @@
 <div class="row g-4">
     <div class="col-lg-4">
         <div class="card card-dark">
-            <div class="card-header">Создать пользователя</div>
+            <div class="card-header">Создание пользователя</div>
             <div class="card-body">
                 <form method="post">
                     <div class="mb-3">
                         <label asp-for="Input.Username" class="form-label">Логин</label>
-                        <input asp-for="Input.Username" class="form-control" />
+                        <input asp-for="Input.Username" class="form-control" autocomplete="off" />
                         <span asp-validation-for="Input.Username" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Input.Password" class="form-label">Пароль</label>
-                        <input asp-for="Input.Password" class="form-control" />
+                        <input asp-for="Input.Password" class="form-control" type="password" autocomplete="new-password" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
                     <div class="form-check mb-3">
@@ -55,8 +55,8 @@
                                 <td>
                                     <form method="post" asp-page-handler="ChangePassword" class="d-flex gap-2">
                                         <input type="hidden" asp-for="PasswordInput.UserId" value="@user.Id" />
-                                        <input asp-for="PasswordInput.NewPassword" class="form-control form-control-sm" placeholder="Новый пароль" />
-                                        <button class="btn btn-sm btn-outline-primary">Изменить</button>
+                                        <input asp-for="PasswordInput.NewPassword" class="form-control form-control-sm" type="password" autocomplete="new-password" placeholder="Новый пароль" />
+                                        <button class="btn btn-sm btn-outline-primary">Сменить</button>
                                     </form>
                                 </td>
                                 <td class="text-end">

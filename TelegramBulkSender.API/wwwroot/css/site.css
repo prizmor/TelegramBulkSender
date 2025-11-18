@@ -1,76 +1,67 @@
 :root {
-    --app-bg: #f8f9fa;
-    --app-text: #212529;
-    --app-text-muted: #6c757d;
-    --app-surface: #ffffff;
-    --app-surface-alt: #f1f3f5;
-    --app-border: #dee2e6;
-    --app-link: #0d6efd;
-    --app-nav-bg: rgba(255, 255, 255, 0.9);
-}
-
-[data-theme="dark"] {
-    --app-bg: #0b0c10;
-    --app-text: #f8f9fa;
-    --app-text-muted: #a0a4b3;
-    --app-surface: #15171c;
-    --app-surface-alt: #1f2229;
-    --app-border: #2d2f36;
-    --app-link: #66b2ff;
-    --app-nav-bg: rgba(15, 17, 26, 0.92);
+    --tg-bg: #e3efff;
+    --tg-surface: #ffffff;
+    --tg-surface-alt: #f3f7ff;
+    --tg-text: #17212b;
+    --tg-text-muted: #6c7883;
+    --tg-border: #d3dbe6;
+    --tg-accent: #3390ec;
 }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background-color: var(--app-bg);
-    color: var(--app-text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--tg-bg);
+    color: var(--tg-text);
     min-height: 100vh;
 }
 
 .app-navbar {
-    background-color: var(--app-nav-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-color: var(--app-border);
+    background-color: var(--tg-surface);
+    border-color: var(--tg-border);
 }
 
 .app-navbar .navbar-brand {
-    color: var(--app-text);
+    color: var(--tg-text);
 }
 
 .app-navbar .nav-link {
-    color: var(--app-text);
-    opacity: 0.75;
-    transition: opacity 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+    color: var(--tg-text-muted);
+    transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 .app-navbar .nav-link:hover,
-.app-navbar .nav-link:focus,
+.app-navbar .nav-link:focus {
+    color: var(--tg-text);
+    background-color: rgba(51, 144, 236, 0.06);
+}
+
 .app-navbar .nav-link.active {
-    opacity: 1;
+    color: #fff;
+    background-color: var(--tg-accent);
+    border-radius: 999px;
 }
 
 .card-dark {
-    background-color: var(--app-surface);
-    border-color: var(--app-border);
-    color: var(--app-text);
+    background-color: var(--tg-surface);
+    border-color: var(--tg-border);
+    color: var(--tg-text);
 }
 
 .card-dark .card-header {
-    background-color: var(--app-surface-alt);
-    border-bottom-color: var(--app-border);
+    background-color: var(--tg-surface-alt);
+    border-bottom-color: var(--tg-border);
 }
 
 .table {
-    color: var(--app-text);
+    color: var(--tg-text);
 }
 
 .table thead th {
-    border-bottom-color: var(--app-border);
+    border-bottom-color: var(--tg-border);
 }
 
 .table tbody tr {
-    border-color: var(--app-border);
+    border-color: var(--tg-border);
 }
 
 .list-group-item.bg-transparent {
@@ -78,34 +69,31 @@ body {
 }
 
 a {
-    color: var(--app-link);
+    color: var(--tg-accent);
+    text-decoration: none;
 }
 
 a:hover {
-    color: var(--app-link);
-    opacity: 0.9;
+    color: var(--tg-accent);
+    text-decoration: underline;
 }
 
 .form-control,
 .form-select,
 .form-check-input {
-    background-color: var(--app-surface);
-    color: var(--app-text);
-    border-color: var(--app-border);
+    background-color: var(--tg-surface);
+    color: var(--tg-text);
+    border-color: var(--tg-border);
 }
 
 .form-control:focus,
 .form-select:focus,
 .form-check-input:focus {
-    border-color: var(--app-link);
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    border-color: var(--tg-accent);
+    box-shadow: 0 0 0 0.2rem rgba(51, 144, 236, 0.25);
 }
 
 .form-text,
 .text-muted {
-    color: var(--app-text-muted) !important;
-}
-
-.theme-toggle {
-    min-width: 130px;
+    color: var(--tg-text-muted) !important;
 }
